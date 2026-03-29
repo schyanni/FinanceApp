@@ -1,0 +1,46 @@
+﻿<UserControl
+    x:Class="FinancingApp.View.DatePicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uiLogic="clr-namespace:FinancingApp.UiLogic"
+    xmlns:vm="clr-namespace:FinancingApp.ViewModel"
+    d:Background="AliceBlue"
+    d:DataContext="{d:DesignInstance vm:DatePickerViewModel}"
+    d:DesignHeight="60"
+    d:DesignWidth="200"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style
+            x:Key="ExtendedTextBoxStyle"
+            BasedOn="{StaticResource {x:Type TextBox}}"
+            TargetType="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="uiLogic:FocusBehavior.SelectTextOnFocus" Value="True" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <TextBox
+                d:Text="01"
+                Style="{StaticResource ExtendedTextBoxStyle}"
+                Text="{Binding Day}" />
+            <Label>/</Label>
+            <TextBox
+                d:Text="02"
+                Style="{StaticResource ExtendedTextBoxStyle}"
+                Text="{Binding Month}" />
+            <Label>/</Label>
+            <TextBox
+                d:Text="2026"
+                Style="{StaticResource ExtendedTextBoxStyle}"
+                Text="{Binding Year}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

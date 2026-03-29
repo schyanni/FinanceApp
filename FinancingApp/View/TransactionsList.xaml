@@ -1,0 +1,55 @@
+﻿<UserControl
+    x:Class="FinancingApp.View.TransactionsList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FinancingApp.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:FinancingApp.ViewModel"
+    d:Background="AliceBlue"
+    d:DataContext="{d:DesignInstance vm:TransactionsListViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid>
+        <DataGrid
+            Width="Auto"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserReorderColumns="False"
+            CanUserSortColumns="True"
+            IsReadOnly="True"
+            ItemsSource="{Binding Transactions}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Datum">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="120" Header="Kategorie">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TransactionType.Name}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn
+                    Width="*"
+                    MinWidth="300"
+                    Binding="{Binding Description}"
+                    Header="Beschreibung" />
+                <DataGridTextColumn
+                    MinWidth="80"
+                    Binding="{Binding Amount}"
+                    Header="Menge" />
+                <DataGridTemplateColumn Header="...">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate />
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
