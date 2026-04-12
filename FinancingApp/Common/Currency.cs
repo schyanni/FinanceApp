@@ -45,6 +45,8 @@
         {
             try
             {
+                const string chf = "CHF ";
+                amount = amount.StartsWith(chf) ? amount[chf.Length..] : amount;
                 currency = Parse(amount);
             } catch
             {

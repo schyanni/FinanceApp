@@ -12,12 +12,7 @@ public class TransactionCreationViewModel : ObservableObject
 
     private readonly TransactionService _transactionService;
 
-    private Currency _amount = 0;
-
-    private DateTime _date = DateTime.Today;
-
-    private string _description = string.Empty;
-
+    private Currency _amountInCurrency = 0;
     private Category _selectedCategory = Category.Null;
 
     public TransactionCreationViewModel(CategoryService categoryService, TransactionService transactionService)
@@ -26,33 +21,37 @@ public class TransactionCreationViewModel : ObservableObject
         _transactionService = transactionService;
 
         AddTransactionCommand = new AsyncRelayCommand(AddTransactionAsync, () => IsCurrentTransactionValid);
+        ConvertToCurrencyCommand = new RelayCommand(ConvertToCurrency, () => true);
+        ResetTransaction();
     }
 
     public IAsyncRelayCommand AddTransactionCommand { get; }
 
+    public IRelayCommand ConvertToCurrencyCommand { get; }
+
     public string Amount
     {
-        get => _amount.ToString();
-        set => SetAmount(value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = new Currency(0).ToString();
 
     public ReadOnlyObservableCollection<Category> AvailableCategories => _categoryService.AvailableCategories;
 
     public DateTime Date
     {
-        get => _date;
-        set => SetProperty(ref _date, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = DateTime.Today;
 
     public string Description
     {
-        get => _description;
+        get;
         set
         {
-            SetProperty(ref _description, value); 
+            SetProperty(ref field, value); 
             AddTransactionCommand.NotifyCanExecuteChanged();
         }
-    }
+    } = string.Empty;
 
     public bool IsActiveForNewTransaction
     {
@@ -81,9 +80,9 @@ public class TransactionCreationViewModel : ObservableObject
 
     private Transaction CurrentTransaction => new()
     {
-        Amount = _amount.Value(),
-        Date = DateConverter.ToString(_date),
-        Description = _description,
+        Amount = _amountInCurrency.Value(),
+        Date = DateConverter.ToString(Date),
+        Description = Description,
         Type = _selectedCategory
     };
 
@@ -91,6 +90,7 @@ public class TransactionCreationViewModel : ObservableObject
 
     private async Task AddTransactionAsync()
     {
+        ConvertToCurrency();
         if (!IsCurrentTransactionValid)
         {
             return;
@@ -98,8 +98,23 @@ public class TransactionCreationViewModel : ObservableObject
 
         var transaction = CurrentTransaction;
         await _transactionService.CreateTransactionAsync(transaction);
+    }
 
-        ResetTransaction();
+    private void ConvertToCurrency()
+    {
+        if (Currency.TryParse(Amount, out var currency))
+        {
+            _amountInCurrency = currency;
+            OnPropertyChanged(nameof(Amount));
+            IsAmountValid = true;
+            Amount = _amountInCurrency.ToString();
+        }
+        else
+        {
+            IsAmountValid = false;
+            _amountInCurrency = 0;
+            OnPropertyChanged(nameof(Amount));
+        }
     }
 
     private void ResetTransaction()
@@ -108,21 +123,5 @@ public class TransactionCreationViewModel : ObservableObject
         Description = string.Empty;
         SelectedCategory = Category.Null;
         Amount = "0";
-    }
-
-    private void SetAmount(string amount)
-    {
-        if (Currency.TryParse(amount, out var currency))
-        {
-            _amount = currency;
-            OnPropertyChanged(nameof(Amount));
-            IsAmountValid = true;
-        }
-        else
-        {
-            IsAmountValid = false;
-            _amount = 0;
-            OnPropertyChanged(nameof(Amount));
-        }
     }
 }
