@@ -39,6 +39,7 @@ namespace FinancingApp
             // domain
             services.AddSingleton<CategoryService>();
             services.AddSingleton<TransactionService>();
+            services.AddSingleton<CsvImportService>();
 
             // persistence
             services.AddSingleton<FinancingAppContext>();
