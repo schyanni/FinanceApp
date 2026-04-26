@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using FinancingApp.Persistence;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 
 namespace FinancingApp.Domain
 {
@@ -6,18 +8,27 @@ namespace FinancingApp.Domain
     {
         private readonly ObservableCollection<Category> _categories = [];
 
-        public CategoryService()
+        private readonly FinancingAppContext _context;
+
+        public CategoryService(FinancingAppContext context)
         {
             AvailableCategories = new ReadOnlyObservableCollection<Category>(_categories);
-
-            // dummy data
-            _categories.Add(new Category(){Name = "Kat. AAAAAAA"});
-            _categories.Add(new Category(){Name = "Kat. BBBBBBB"});
+            _context = context;
         }
 
         public void AddCategory(string categoryName)
         {
             _categories.Add(new Category(){Name = categoryName});
+        }
+
+        public async Task LoadCategoriesAsync()
+        {
+            var categories = await _context.Categories.ToListAsync();
+            _categories.Clear();
+            foreach(var cagetory in categories)
+            {
+                _categories.Add(cagetory);
+            }
         }
 
         public ReadOnlyObservableCollection<Category> AvailableCategories { get; }

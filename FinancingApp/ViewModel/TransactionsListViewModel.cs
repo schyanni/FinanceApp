@@ -16,10 +16,16 @@ namespace FinancingApp.ViewModel
             _transactionService = transactionService;
             _categoryService = categoryService;
 
-            var collection = _transactionService.FilteredTransactions as INotifyCollectionChanged;
-            collection.CollectionChanged += OnFilteredTransactionCollectionChanged;
+            var transactionCollection = _transactionService.FilteredTransactions as INotifyCollectionChanged;
+            transactionCollection.CollectionChanged += OnFilteredTransactionCollectionChanged;
 
             Transactions = new ReadOnlyObservableCollection<TransactionViewModel>(_filteredTransactionViewModels);
+        }
+
+        public async Task LoadDataFromDbAsync()
+        {
+            await _categoryService.LoadCategoriesAsync();
+            await _transactionService.LoadFilteredTransactionsAsync(); 
         }
 
         private void OnFilteredTransactionCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

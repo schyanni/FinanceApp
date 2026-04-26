@@ -12,10 +12,13 @@ namespace FinancingApp.ViewModel
             TransactionsListViewModel = transactionsListViewModel;
 
             OpenTransactionCreationCommand = new RelayCommand(OpenTransactionCreation);
+            LoadInitialDataCommand = new AsyncRelayCommand(async () => await TransactionsListViewModel.LoadDataFromDbAsync());
 
         }
 
-        public ICommand OpenTransactionCreationCommand { get; }
+        public IRelayCommand OpenTransactionCreationCommand { get; }
+
+        public IAsyncRelayCommand LoadInitialDataCommand { get; }
 
         public TransactionCreationViewModel TransactionCreationViewModel { get; }
 
