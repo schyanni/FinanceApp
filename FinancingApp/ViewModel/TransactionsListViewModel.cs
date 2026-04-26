@@ -10,16 +10,11 @@ namespace FinancingApp.ViewModel
 
         private readonly CategoryService _categoryService;
 
-        private readonly ObservableCollection<TransactionViewModel> _filteredTransactionViewModels = [];
+        private readonly ObservableCollection<Transaction> _filteredTransactions = [];
         public TransactionsListViewModel(TransactionService transactionService, CategoryService categoryService)
         {
             _transactionService = transactionService;
             _categoryService = categoryService;
-
-            var transactionCollection = _transactionService.FilteredTransactions as INotifyCollectionChanged;
-            transactionCollection.CollectionChanged += OnFilteredTransactionCollectionChanged;
-
-            Transactions = new ReadOnlyObservableCollection<TransactionViewModel>(_filteredTransactionViewModels);
         }
 
         public async Task LoadDataFromDbAsync()
@@ -28,32 +23,8 @@ namespace FinancingApp.ViewModel
             await _transactionService.LoadFilteredTransactionsAsync(); 
         }
 
-        private void OnFilteredTransactionCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add when e.NewItems is not null:
-                {
-                    foreach (var item in e.NewItems)
-                    {
-                        if (item is Transaction transaction)
-                        {
-                            _filteredTransactionViewModels.Add(new TransactionViewModel(transaction));
-                        }
-                    }
-                    break;
-                }
-                case NotifyCollectionChangedAction.Remove:
-                case NotifyCollectionChangedAction.Replace:
-                case NotifyCollectionChangedAction.Move:
-                case NotifyCollectionChangedAction.Reset:
-                    throw new NotImplementedException();
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
         public ReadOnlyObservableCollection<Category> AvailableCategories => _categoryService.AvailableCategories;
 
-        public ReadOnlyObservableCollection<TransactionViewModel> Transactions { get; }
+        public ReadOnlyObservableCollection<Transaction> Transactions => _transactionService.FilteredTransactions;
     }
 }

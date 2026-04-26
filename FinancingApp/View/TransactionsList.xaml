@@ -31,7 +31,7 @@
                 <DataGridTemplateColumn MinWidth="120" Header="Kategorie">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding TransactionType.Name}" />
+                            <TextBlock Text="{Binding Type.Name}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

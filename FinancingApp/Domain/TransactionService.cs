@@ -22,13 +22,10 @@ public class TransactionService
     {
         var transactions = await _context.Transactions.ToListAsync();
         _filteredTransactions.Clear();
-        await Task.Run(() =>
+        foreach (var transaction in transactions)
         {
-            foreach (var transaction in transactions)
-            {
-                _filteredTransactions.Add(transaction);
-            }
-        });
+            _filteredTransactions.Add(transaction);
+        }
     }
 
     public async Task CreateTransactionAsync(Transaction transaction)
