@@ -51,6 +51,5 @@ All services and ViewModels are registered as singletons in `App.OnStartup()`. T
 ## Conventions
 
 - Amounts are **always stored as integer cents** in the database and in domain objects. The `Currency` struct is the only place that converts to/from decimal display values.
-- ViewModels **never hold an internal `ObservableCollection` directly exposed to the view** — they expose `ReadOnlyObservableCollection` and subscribe to service collections via `CollectionChanged`.
+- ViewModels **never hold an internal `ObservableCollection` directly exposed to the view** — they expose `ReadOnlyObservableCollection` and reference service collections
 - Database migrations live in `FinancingApp/Persistence/Migrations/` and are managed via EF Core Package Manager Console (`Add-Migration`, `Update-Database`).
-- `TransactionsListViewModel` currently only handles the `Add` action in its `CollectionChanged` handler — `Remove`, `Replace`, and `Reset` throw `NotImplementedException`.
