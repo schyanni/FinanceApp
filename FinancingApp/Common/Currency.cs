@@ -60,8 +60,8 @@
         public static Currency Parse(string amount)
         {
             // clean up comma and delimiting characters
-            amount.Replace(",", ".");
-            amount.Replace("'", string.Empty);
+            amount = amount.Replace(",", ".");
+            amount = amount.Replace("'", string.Empty);
 
             bool isNegative = amount.StartsWith("-");
 
