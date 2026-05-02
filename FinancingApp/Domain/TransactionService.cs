@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinancingApp.Domain;
 
-public class TransactionService
+public class TransactionService : ITransactionService
 {
     private readonly FinancingAppContext _context;
 

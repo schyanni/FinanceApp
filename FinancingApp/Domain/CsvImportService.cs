@@ -6,7 +6,7 @@ using System.IO;
 
 namespace FinancingApp.Domain
 {
-    public class CsvImportService(CategoryService categoryService, TransactionService transactionService)
+    public class CsvImportService(ICategoryService categoryService, ITransactionService transactionService)
     {
         private const string ChfPrefix = "CHF ";
 

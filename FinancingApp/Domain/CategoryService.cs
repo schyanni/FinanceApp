@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace FinancingApp.Domain
 {
-    public class CategoryService
+    public class CategoryService : ICategoryService
     {
         private readonly ObservableCollection<Category> _categories = [];
 
