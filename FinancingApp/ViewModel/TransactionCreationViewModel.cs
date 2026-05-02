@@ -8,14 +8,14 @@ namespace FinancingApp.ViewModel;
 
 public class TransactionCreationViewModel : ObservableObject
 {
-    private readonly CategoryService _categoryService;
+    private readonly ICategoryService _categoryService;
 
-    private readonly TransactionService _transactionService;
+    private readonly ITransactionService _transactionService;
 
     private Currency _amountInCurrency = 0;
     private Category _selectedCategory = Category.Null;
 
-    public TransactionCreationViewModel(CategoryService categoryService, TransactionService transactionService)
+    public TransactionCreationViewModel(ICategoryService categoryService, ITransactionService transactionService)
     {
         _categoryService = categoryService;
         _transactionService = transactionService;

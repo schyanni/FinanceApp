@@ -6,12 +6,12 @@ namespace FinancingApp.ViewModel
 {
     public class TransactionsListViewModel
     {
-        private readonly TransactionService _transactionService;
+        private readonly ITransactionService _transactionService;
 
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
         private readonly ObservableCollection<Transaction> _filteredTransactions = [];
-        public TransactionsListViewModel(TransactionService transactionService, CategoryService categoryService)
+        public TransactionsListViewModel(ITransactionService transactionService, ICategoryService categoryService)
         {
             _transactionService = transactionService;
             _categoryService = categoryService;

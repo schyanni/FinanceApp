@@ -17,26 +17,37 @@
             <b:InvokeCommandAction Command="{Binding LoadInitialDataCommand}" />
         </b:EventTrigger>
     </b:Interaction.Triggers>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MaxWidth="100" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" MaxWidth="100" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="10" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="10" />
-        </Grid.RowDefinitions>
-        <local:TransactionCreation
-            x:Name="TransactionCreationControl"
-            Grid.Row="0"
-            Grid.Column="1"
-            DataContext="{Binding TransactionCreationViewModel}" />
-        <local:TransactionsList
-            Grid.Row="2"
-            Grid.Column="1"
-            DataContext="{Binding TransactionsListViewModel}" />
-    </Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Datei">
+                <MenuItem Header="Daten importieren"
+                          Command="{Binding ImportDataCommand}" />
+                <Separator />
+                <MenuItem Header="Beenden"
+                          Command="{Binding ExitCommand}" />
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MaxWidth="100" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" MaxWidth="100" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="10" />
+            </Grid.RowDefinitions>
+            <local:TransactionCreation
+                x:Name="TransactionCreationControl"
+                Grid.Row="0"
+                Grid.Column="1"
+                DataContext="{Binding TransactionCreationViewModel}" />
+            <local:TransactionsList
+                Grid.Row="2"
+                Grid.Column="1"
+                DataContext="{Binding TransactionsListViewModel}" />
+        </Grid>
+    </DockPanel>
 </Window>
